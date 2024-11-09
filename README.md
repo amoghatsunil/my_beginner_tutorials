@@ -96,6 +96,7 @@ The server_client node functions as a client that sends requests to modify the m
 
 ## RQT Console Log Output
 
+![Screenshot from 2024-11-09 00-04-12](https://github.com/user-attachments/assets/920c47f3-83a5-4954-8169-002cdf102ce5)
 
 ## Linting
 
