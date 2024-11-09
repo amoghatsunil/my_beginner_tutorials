@@ -1,0 +1,18 @@
+launch:
+  # command line argument 
+  - arg:
+      name: "frequency"
+      default: "5"
+
+  - node:
+      pkg: "beginner_tutorials"
+      exec: "talker"
+      name: "Minimal_Custom_Publisher"
+      param:
+        - name: "frequency"
+          value: "$(var frequency)"
+
+  - node:
+      pkg: "beginner_tutorials"
+      exec: "listener"
+      name: "Minimal_Custom_Subscriber"
