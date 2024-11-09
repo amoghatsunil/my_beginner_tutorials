@@ -21,14 +21,14 @@ class ServiceClient : public rclcpp::Node {
     client = this->create_client<beginner_tutorials ::srv::ChangeString>(
         "service_node");
   }
-
+ /*Reqquest*/
   auto getRequest(char **argv) {
     auto request =
         std::make_shared<beginner_tutorials ::srv::ChangeString::Request>();
     request->input = argv[1];
     return request;
   }
-
+  /*client*/
   rclcpp::Client<beginner_tutorials::srv::ChangeString>::SharedPtr client;
 };
 
