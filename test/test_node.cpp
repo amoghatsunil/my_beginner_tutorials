@@ -15,6 +15,10 @@
 #include "beginner_tutorials/srv/change_string.hpp"
 
 using std_msgs::msg::String;
+using namespace std::chrono_literals;
+
+/*create an initial logger*/
+auto Logger = rclcpp::get_logger("");
 
 /**
  * @class MyTestsFixture
@@ -63,8 +67,7 @@ TEST_CASE_METHOD(MyTestsFixture, "test service server", "/service_node") {
   bool service_found = false;
   rclcpp::Duration duration = 0s;
   RCLCPP_INFO_STREAM(Logger, "Performing Test...");
-  auto timeout =
-      std::chrono::milliseconds(static_cast<int>(TEST_DURATION * 1000));
+  auto timeout = std::chrono::milliseconds((int)(TEST_DURATION * 1000));
 
   /*test if the service exists during the time_duration */
   if (client->wait_for_service(timeout)) {  // blocking
@@ -82,7 +85,7 @@ TEST_CASE_METHOD(MyTestsFixture, "test service server", "/service_node") {
       auto response = future.get();
       RCLCPP_INFO_STREAM(Logger,
                          "Service responded with: " << response->output);
-      CHECK_EQ(response->output, "Test input Service node edited this Message");
+      CHECK(response->output == "Test input Service node edited this Message");
     } else {
       RCLCPP_ERROR(Logger, "Failed to call the service");
       /*force test failure if service call fail*/
