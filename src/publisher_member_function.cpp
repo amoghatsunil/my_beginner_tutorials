@@ -13,12 +13,12 @@
 #include <string>
 
 #include "beginner_tutorials/srv/change_string.hpp"
+#include "geometry_msgs/msg/transform_stamped.hpp"
 #include "rclcpp/logger.hpp"
+#include "rclcpp/parameter_client.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 #include "tf2_ros/transform_broadcaster.h"
-#include "geometry_msgs/msg/transform_stamped.hpp"
-#include "rclcpp/parameter_client.hpp"
 
 /*Parameter Types */
 using PARAMETER_EVENT = std::shared_ptr<rclcpp::ParameterEventHandler>;
@@ -103,7 +103,7 @@ class MinimalPublisher : public rclcpp::Node {
     ///<  Publish the message
     RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
     publisher->publish(message);
-    
+
     ////<  Broadcast transform
     geometry_msgs::msg::TransformStamped transformStamped;
 
@@ -121,7 +121,7 @@ class MinimalPublisher : public rclcpp::Node {
     transformStamped.transform.rotation.x = 0.0;
     transformStamped.transform.rotation.y = 0.0;
     ///< 45 degrees in z axis
-    transformStamped.transform.rotation.z = 0.707;  
+    transformStamped.transform.rotation.z = 0.707;
     transformStamped.transform.rotation.w = 0.707;
 
     ///<  Broadcast the transform
@@ -132,7 +132,7 @@ class MinimalPublisher : public rclcpp::Node {
   ///< Service object to handle service requests.
   rclcpp::Service<beginner_tutorials::srv::ChangeString>::SharedPtr service;
 
-  ///< tf broadcaster object 
+  ///< tf broadcaster object
   std::shared_ptr<tf2_ros::TransformBroadcaster> tfBroadcaster;
 
   ///< Message to be published, updated by the service.

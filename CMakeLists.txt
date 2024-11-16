@@ -7,13 +7,14 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(catch_ros2 REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(example_interfaces REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
-
+find_package(std_srvs REQUIRED)
 
 ament_export_dependencies(rosidl_default_runtime)
 rosidl_generate_interfaces(${PROJECT_NAME}
@@ -38,7 +39,21 @@ if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   set(ament_cmake_copyright_FOUND TRUE)
   set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
+
+  # Add the integration test node
+  add_executable(integration_test_node test/test_node.cpp)
+  target_link_libraries(integration_test_node catch_ros2::catch_ros2_with_node_main)
+  ament_target_dependencies(integration_test_node rclcpp std_srvs std_msgs tf2 tf2_ros)
+  rosidl_target_interfaces(integration_test_node
+    ${PROJECT_NAME} "rosidl_typesupport_cpp")
+  
+  install(TARGETS
+    integration_test_node
+    DESTINATION lib/${PROJECT_NAME})
+
+  # ROS2 integration test using launch file
+  catch_ros2_add_integration_test(ExampleIntegration_TestYAML
+    LAUNCH_FILE integration_test.launch.yaml)
 endif()
 
 find_package(Doxygen)
