@@ -1,4 +1,3 @@
-// Copyright [2024] <Swaraj Mundruppady Rao (swarajmr@umd.edu)>
 /**
  * BSD 3-Clause License
  * @file server_client.cpp
